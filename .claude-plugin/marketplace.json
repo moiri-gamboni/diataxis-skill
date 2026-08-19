@@ -11,7 +11,7 @@
       "name": "diataxis",
       "source": "./",
       "description": "Documentation-writing skill carrying the Diátaxis framework (diataxis.fr) as verbatim reference text with a routing SKILL.md",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "author": {
         "name": "Moiri Gamboni"
       },
