@@ -1,6 +1,6 @@
 # Integrating the diataxis skill with praxis
 
-Status: planned, not implemented. This records how the diataxis plugin should hook into the praxis development pipeline (ideate → design → implement → review → ship), in increasing order of coupling. Written 2026-08-19 against praxis 1.8.1, from a full read of the relevant skill and agent files (`skills/ship`, `skills/implement`, `skills/review`, `agents/implementer.md`, plus a docs-mention sweep across the rest).
+Status: planned, not implemented. This records how the diataxis plugin should hook into the praxis development pipeline (ideate → design → implement → review → ship), in increasing order of coupling. Written 2026-08-19 against praxis 1.8.1, from a full read of every praxis skill and agent file (all 13 SKILL.md + 4 supporting docs + 13 agents).
 
 ## Where praxis currently touches documentation (verified)
 
@@ -8,7 +8,10 @@ Status: planned, not implemented. This records how the diataxis plugin should ho
 - **`skills/review/SKILL.md`** already lists *"Documentation update — README, docs"* as a logical-unit type, so doc changes flow through the reviewer fleet — but no reviewer is briefed on documentation form; `praxis:comment-analyzer` covers code comments only.
 - **`skills/implement/SKILL.md`** Phase 4 step 7 resolves *conflicting* doc edits from workers; decomposition (Phase 1) has no notion of a documentation unit.
 - **`skills/ship/SKILL.md`** is state-driven with no generic checklist. State 1 (on main) is deliberately a single-message, no-questions fast path; States 2/3 (feature branch) verify tests and, in State 2, run `praxis:simplify`. There is no docs gate anywhere.
-- **`skills/design/SKILL.md`** already classifies docs as non-behavioral deliverables (verification line instead of a test) — so plans can carry docs tasks; nothing shapes their content.
+- **`agents/code-reviewer.md`** lists "doc completeness" under production readiness (for merge/PR) — so the reviewer fleet already asks *whether* docs exist, just not what form they should take.
+- **`agents/trimmer.md`** already polices docs by subtraction: duplicated tables, sections restating code, docs asserting things false of the code, the fresh-maintainer test, and (plan mode) doc deliverables. Complementary, not overlapping: trimmer cuts doc bloat and staleness; diataxis governs kind and form. No conflict — a kind-pure doc is also easier to trim.
+- **`skills/design/SKILL.md`** already classifies docs as non-behavioral deliverables (verification line instead of a test), and its Task Structure gives every task a **"Skills to activate"** header (e.g. `praxis:test-driven-development`) — an existing per-task mechanism a doc task could name `diataxis:diataxis` in. Nothing currently shapes doc content.
+- **`skills/prototype/SKILL.md`**'s Phase 6 handoff doc was considered and excluded: it is a decision record for the next builder (decisions, tradeoffs, solid-vs-provisional), not practitioner documentation of a craft — forcing it into a Diátaxis kind would fight its purpose. Its "what it is + how to run" line is the one diataxis-shaped fragment, and it is fine as is.
 - Praxis references components namespaced (`praxis:review`) with a name-resolution guard: unresolvable references are surfaced, never silently substituted. Cross-plugin references to `diataxis:diataxis` should reuse that pattern, with the surface message naming the fix (`/plugin marketplace add moiri-gamboni/diataxis-skill`).
 - Praxis has documented machinery for absorbing an external plugin wholesale (`upstream.json` sources + `NOTICE` + `scripts/analyze-upstream.sh`) — the fallback if cross-plugin coupling proves brittle.
 
@@ -27,10 +30,10 @@ Two minimal praxis-side edits, each grafting onto a step that already exists:
 
 Cost: two short diffs; converts stale-docs from silent omission into explicit decision on both the orchestrated and solo paths.
 
-### Level 2 — documentation units in `/praxis:implement` and doc-aware review briefings
+### Level 2 — documentation tasks named in plans, doc-aware review briefings
 
-- Phase 1 decomposition: a plan touching user-visible behaviour yields a documentation unit in `batch-plan.md` like any other unit (own deliverable, verification line instead of a test surface), depending on the interface-defining units so it dispatches late. The worker is a normal `praxis:implementer`, which with Level 1 already loads the skill.
-- `/praxis:review` Step 4: when a logical unit is a documentation update, brief the dispatched reviewer to load `diataxis:diataxis` and review for kind-purity (the compass applied per section) in addition to accuracy.
+- `/praxis:design` Phase 3: a doc-deliverable task lists `diataxis:diataxis` in its existing **"Skills to activate"** header, exactly as behavioral tasks list `praxis:test-driven-development` — the per-task activation mechanism already exists, so this is a template change, not new machinery. `/praxis:implement` decomposition inherits it for free when the plan carries such a task (the unit dispatches after the interface-defining units it documents).
+- `/praxis:review` Step 4: when a logical unit is a documentation update, brief the dispatched reviewer to load `diataxis:diataxis` and review for kind-purity (the compass applied per section) in addition to the accuracy and completeness checks code-reviewer already runs.
 
 Adopt only if Level 1 shows docs repeatedly arriving rushed or oversized at ship time; it moves the work earlier at the price of decomposition complexity.
 
