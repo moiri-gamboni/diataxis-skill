@@ -1,0 +1,28 @@
+{
+  "name": "diataxis-skill",
+  "owner": {
+    "name": "Moiri Gamboni"
+  },
+  "metadata": {
+    "description": "Diátaxis documentation framework as a Claude Code skill"
+  },
+  "plugins": [
+    {
+      "name": "diataxis",
+      "source": "./",
+      "description": "Documentation-writing skill carrying the Diátaxis framework (diataxis.fr) as verbatim reference text with a routing SKILL.md",
+      "version": "1.0.0",
+      "author": {
+        "name": "Moiri Gamboni"
+      },
+      "license": "CC-BY-SA-4.0",
+      "keywords": [
+        "documentation",
+        "diataxis",
+        "writing",
+        "tutorials",
+        "reference"
+      ]
+    }
+  ]
+}

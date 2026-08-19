@@ -1,0 +1,25 @@
+#!/bin/bash
+set -euo pipefail
+
+# Auto-bump patch version in plugin.json and marketplace.json on every commit.
+# Claude Code uses the version string to detect plugin updates; without a bump,
+# new content doesn't reach installed copies.
+# Install with: ln -sf ../../scripts/pre-commit-version-bump .git/hooks/pre-commit
+
+PLUGIN_JSON=".claude-plugin/plugin.json"
+MARKETPLACE_JSON=".claude-plugin/marketplace.json"
+
+[ -f "$PLUGIN_JSON" ] || exit 0
+
+current=$(grep -o '"version": "[^"]*"' "$PLUGIN_JSON" | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+')
+IFS='.' read -r major minor patch <<< "$current"
+new_version="$major.$minor.$((patch + 1))"
+echo "pre-commit hook: auto-bumped plugin version $current → $new_version and staged the .claude-plugin json files"
+
+sed -i "s/\"version\": \"$current\"/\"version\": \"$new_version\"/" "$PLUGIN_JSON"
+git add "$PLUGIN_JSON"
+
+if [ -f "$MARKETPLACE_JSON" ]; then
+  sed -i "s/\"version\": \"$current\"/\"version\": \"$new_version\"/" "$MARKETPLACE_JSON"
+  git add "$MARKETPLACE_JSON"
+fi
