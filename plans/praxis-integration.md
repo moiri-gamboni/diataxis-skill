@@ -45,8 +45,21 @@ A praxis-side command for corpus-scale work, mirroring `/praxis:review`'s fleet 
 
 If cross-plugin resolution proves brittle, or praxis must work for users who won't install a second plugin: absorb via praxis's documented new-upstream procedure (add `moiri-gamboni/diataxis-skill` to `upstream.json`, copy `skills/diataxis/` in as `praxis:diataxis`, attribute in `NOTICE` — CC BY-SA 4.0 content coexisting with AGPL praxis the same way its MIT and Apache-2.0 material already does; generated files keep their attribution headers). Cost: a second copy to keep synced (mitigated by `analyze-upstream.sh`) and a concern praxis didn't have. Prefer the standalone plugin while both live on the same boxes.
 
+## Inline shape guidance in praxis: classification yes, rules no
+
+Decided 2026-08-19 (raised by Moïri: should praxis agents/skills themselves recommend specific doc shapes?). Praxis's own TDD integration is the template: inline the *classification gate*, defer all *rules* to the skill loaded fresh at the point of work ("Skills are tool calls, not vibes"). Duplicating compressed shape rules into praxis would recreate the paraphrase-drift problem this skill exists to avoid.
+
+What praxis should carry inline, when Levels 1-2 land:
+
+- **`implementer` step 8**: its current "update README.md and CLAUDE.md" is already an implicit — and wrong — shape policy (everything → README). Replace with kind-aware phrasing: load `diataxis:diataxis`, identify which kinds the change touches, update those docs where the project keeps them.
+- **`design` Phase 3 doc tasks**: one line in the task template — name the kind(s) the deliverable serves — so tasks read "update the reference for X", never "update docs".
+- **One stable prior, stated once**: feature work almost always touches how-to and reference, sometimes explanation, almost never tutorial. Derives from the framework's structure, so it won't drift; prevents tutorial-voiced READMEs.
+
+Nothing else. Every rule about what a kind looks like stays in the skill.
+
 ## Decision points
 
-- Adopt Level 1 after the skill has been exercised on a few real docs tasks, so the hook wording reflects observed use rather than a guess.
+- Direction (Moïri, 2026-08-19): target is "probably Level 2 + 3" rather than resting at Level 1. Level 1's two hooks are subsumed by Level 2 work (the step-8 rewording above is part of it); Level 3 still gates on a real corpus-scale task to shape the command against.
+- Adopt the praxis-side edits after the skill has been exercised on a few real docs tasks, so the hook wording reflects observed use rather than a guess.
 - Crux for Level 2: whether ship-time and step-8 docs updates turn out rushed, oversized, or kind-blurred under Level 1. Small correct diffs at ship → Level 1 is the resting state.
 - Crux for Level 4: the cross-plugin guard firing more than rarely (praxis sessions without the diataxis plugin installed).
