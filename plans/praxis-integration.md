@@ -1,6 +1,6 @@
 # Integrating the diataxis skill with praxis
 
-Status: planned, not implemented. This records how the diataxis plugin should hook into the praxis development pipeline (ideate → design → implement → review → ship), in increasing order of coupling. Written 2026-08-19 against praxis 1.8.1, from a full read of every praxis skill and agent file (all 13 SKILL.md + 4 supporting docs + 13 agents).
+Status: Levels 1+2 implemented 2026-08-19 on praxis branch `diataxis-docs-integration` (commit 88f81d0, v1.9.1), four hooks: implementer step 8 + skill-audit range, ship State 2 docs check (the solo-path choke point; skipped when implementer already ran), design doc-task template, review documentation-unit briefing — plus CLAUDE.md/README entries, with the inline-classification decision below applied as specified. Not yet merged or pushed. Level 3 still gates on a real corpus-scale task. This records how the diataxis plugin should hook into the praxis development pipeline (ideate → design → implement → review → ship), in increasing order of coupling. Written 2026-08-19 against praxis 1.8.1, from a full read of every praxis skill and agent file (all 13 SKILL.md + 4 supporting docs + 13 agents).
 
 ## Where praxis currently touches documentation (verified)
 
