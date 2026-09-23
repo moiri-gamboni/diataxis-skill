@@ -14,4 +14,3 @@ Claude Code plugin carrying the Diátaxis documentation framework as a skill. Th
 - Versioning: patch auto-bumped by the pre-commit hook (`ln -sf ../../scripts/pre-commit-version-bump .git/hooks/pre-commit` after cloning — same mechanism as the praxis repo). Claude Code detects plugin updates by version string; an unbumped commit never reaches installed copies. Bump MINOR for new reference files or routing changes, MAJOR for renamed/removed skills.
 - License: whole repo CC BY-SA 4.0 (forced by ShareAlike on the Diátaxis text; simplest to keep one license). Preserve the attribution header the build script writes into each generated file.
 - SKILL.md style: description frontmatter states WHEN to activate (trigger conditions), not what the workflow is; body in imperative form; keep it lean — detail belongs to the verbatim references, which are authoritative over the summary.
-
